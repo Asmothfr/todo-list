@@ -1,0 +1,55 @@
+.AddButton {
+    position: relative;
+    z-index: 1;
+}
+
+.AddButton--open .AddButton__overlay {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background-modal-activated-color);
+}
+
+.AddButton__section {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 4rem 2rem;
+}
+
+.AddButton__category-task {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    width: 8rem;
+    height: 4rem;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--background-modal-color);
+    color: var(--document-color);
+}
+
+.AddButton__add-button {
+    float: right;
+    margin-right: 2rem;
+    padding: 0;
+    width: 4rem;
+    height: 4rem;
+    background-color: var(--background-color);
+    color: var(--button-color);
+    border: none;
+    font-size: 4rem;
+}
+
+.AddButton--open .AddButton__icon--rotate {
+    transform: rotate(45deg);
+}
+
+.AddButton__modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

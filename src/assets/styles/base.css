@@ -1,0 +1,31 @@
+:root {
+    /* Color */
+    --background-color: #212227;
+    --background-modal-activated-color: #212227ad;
+    --background-modal-color: #2B2C34;
+    --document-color: #DCE1FA;
+    --button-color: #4D5994;
+    --task-color-normal: #4D6F94;
+    --task-color-important: #94824D;
+    --task-color-urgent: #944D58;
+    --task-color-validated: #484E69;
+
+    /* Font Size */
+    --app-title: 2rem;
+    --category-font-size: 1.6rem;
+    --document-font-size: 1.4rem;
+    --task-size: 1.2rem;
+}
+
+/* Document Font Size */
+html {
+    font-size: 62.5%;
+}
+
+/* Setup Base Style */
+body {
+    background-color: var(--background-color);
+    color: var(--document-color);
+    font-size: var(--document-font-size);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

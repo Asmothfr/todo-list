@@ -1,0 +1,20 @@
+.validate-button {
+    width: 8rem;
+    height: 4rem;
+    text-align: center;
+    color: var(--document-color);
+    background-color: var(--button-color);
+    border: none;
+    border-radius: 8px;
+}
+
+.input-style {
+    color: var(--document-color);
+    background-color: var(--background-modal-color);
+    border: none;
+    border-bottom: 1px solid var(--document-color);
+}
+
+.input-style::placeholder {
+    color: var(--task-color-validated);
+}

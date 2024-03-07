@@ -1,0 +1,6 @@
+.App__title {
+    text-align: center;
+    margin: 4rem 0 5rem 0;
+    font-weight: normal;
+    font-size: var(--app-title);
+}

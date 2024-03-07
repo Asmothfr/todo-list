@@ -1,0 +1,45 @@
+.TaskDisplay {
+    margin: 0 auto;
+    width: 24rem;
+    padding: 0;
+}
+
+.TaskDisplay__category-list {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid;
+    list-style-type: none;
+}
+
+.TaskDisplay__category-element {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.TaskDisplay__title {
+    font-weight: normal;
+}
+
+.TaskDisplay__chevron-button {
+    margin-left: auto;
+    padding: 0;
+    width: 4rem;
+    height: 4rem;
+    border: none;
+    background-color: var(--background-color);
+}
+
+.TaskDisplay__chevron-icon {
+    color: var(--button-color);
+    font-size: 2rem;
+}
+
+.TaskDisplay__task-list {
+    margin-bottom: 2rem;
+    list-style-type: none;
+}
+
+.TaskDisplay__task-input {
+    visibility: hidden;
+}
