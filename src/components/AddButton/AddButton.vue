@@ -1,7 +1,7 @@
 <template>
     <div class="AddButton" :class="{ 'AddButton--open': isOpen }">
       <span class="AddButton__overlay"></span>
-      <div class="AddButton__section">
+      <div class="AddButton__container">
         <div v-if="choiceOpen">
           <button @click="categoryFormModal" class="AddButton__category-task">Category</button>
           <button @click="taskFormModal" class="AddButton__category-task">Task</button>

@@ -1,61 +1,66 @@
 <template>
-    <ul class="TaskDisplay">
-        <li v-for="categorie in categoriesList"
-            v-bind:key="categorie.id"
-            class="TaskDisplay__category-list"
-        >
-            <div class="TaskDisplay__category-element">
-                <h2 class="TaskDisplay__title">{{ categorie.name }}</h2>
-                <span>0</span>
-                <span>0</span>
-                <span>0</span>
-                <button class="TaskDisplay__chevron-button">
-                    <font-awesome-icon 
-                    :icon="['fas', 'chevron-down']"
-                    class="TaskDisplay__chevron-icon"
-                    />
-                </button>
-            </div>
-            <ul v-if="taskListTrigger">
-                <li v-for="task in categorie.items"
-                    v-bind:key="task.id"
-                    class="TaskDisplay__task-list"
-                >
-                <label :for="task.name"
-                :data-priority="task.priority"
-                >
-                {{ task.name }}
-                </label>
-                <input type="checkbox"
-                    :name="task.name"
-                    :id="task.name"
-                    class="TaskDisplay__task-input"
-                    >
-                </li>
-            </ul>
-        </li>
+  <li class="TaskDisplay">
+    <div class="TaskDisplay__category-container">
+      <h2 class="TaskDisplay__title">{{ categoriesProps.name }}</h2>
+      <span class="TaskDisplay__score--normal">{{ normalPriorityNumber }}</span>
+      <span class="TaskDisplay__score--important">{{
+        importantPriorityNumber
+      }}</span>
+      <span class="TaskDisplay__score--urgent">{{ urgentPriorityNumber }}</span>
+      <button @click="taskListTrigger" class="TaskDisplay__chevron-button">
+        <font-awesome-icon
+          :icon="['fas', 'chevron-down']"
+          class="TaskDisplay__chevron-icon"
+        />
+      </button>
+    </div>
+    <ul v-if="taskListState" class="TaskDisplay__task-container">
+      <li
+        v-for="task in categoriesProps.items"
+        v-bind:key="task.id"
+        class="TaskDisplay__task-list"
+      >
+        <input type="checkbox" :name="task.name" :id="task.name" />
+        <label :for="task.name" :data-priority="task.priority">
+          {{ task.name }}
+        </label>
+      </li>
     </ul>
+  </li>
 </template>
 
 <script setup lang="ts">
-import categoriesFile from '@/task.json'
-import { ref } from 'vue'
+import { ref, computed, type ComputedRef } from "vue";
+import type { Categories } from "@/components/TaskContainer/TaskContainer.vue";
+import type { Task } from "@/components/TaskContainer/TaskContainer.vue";
 
-interface Categories {
-    name: string,
-    id: number,
-    items: Task[]
-}
+const categoriesProps = defineProps<Categories>();
+const taskListState = ref<boolean>(false);
+const taskList: Task[] = categoriesProps.items;
 
-interface Task {
-    name: string,
-    priority: string,
-    id: number,
-    complete: boolean
-}
+const normalPriority: Task[] = taskList.filter((normalPriority) =>
+  normalPriority.priority.includes("normal")
+);
+const importantPriority: Task[] = taskList.filter((importantPriority) =>
+  importantPriority.priority.includes("important")
+);
+const urgentPriority: Task[] = taskList.filter((urgentPriority) =>
+  urgentPriority.priority.includes("urgent")
+);
 
-const categoriesList:Categories[] = categoriesFile
-const taskListTrigger = ref<boolean>(true)
+const normalPriorityNumber: ComputedRef<number | null> = computed(() => {
+  return normalPriority.length != 0 ? normalPriority.length : null;
+});
+const importantPriorityNumber: ComputedRef<number | null> = computed(() => {
+  return importantPriority.length != 0 ? importantPriority.length : null;
+});
+const urgentPriorityNumber: ComputedRef<number | null> = computed(() => {
+  return urgentPriority.length != 0 ? urgentPriority.length : null;
+});
+
+const taskListTrigger = (): void => {
+  taskListState.value = !taskListState.value;
+};
 </script>
 
 <style>

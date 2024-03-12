@@ -13,7 +13,7 @@
     background-color: var(--background-modal-activated-color);
 }
 
-.AddButton__section {
+.AddButton__container {
     position: fixed;
     bottom: 0;
     right: 0;

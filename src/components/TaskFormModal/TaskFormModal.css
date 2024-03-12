@@ -9,7 +9,7 @@
     padding: 2rem;
 }
 
-.TaskFormModal__input-group {
+.TaskFormModal__input-container {
     margin: 2rem 0;
 }
 
@@ -29,7 +29,7 @@
     border: none;
 }
 
-.TaskFormModal__priority-radio-group {
+.TaskFormModal__priority-radio-container {
     display: flex;
     justify-content: space-evenly;
     margin-top: 2rem;
