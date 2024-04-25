@@ -9,7 +9,14 @@
           class="input-style TaskFormModal__input"
         />
         <select class="input-style TaskFormModal__select" name="category">
-          <option value="">Category</option>
+          <option value="null">Category</option>
+          <option
+            v-for="category in categories"
+            v-bind:key="category.id"
+            :value="category.name"
+          >
+            {{ category.name }}
+          </option>
         </select>
       </div>
       <fieldset class="TaskFormModal__priority">
@@ -65,10 +72,17 @@
       </button>
     </form>
   </div>
-  <!-- Chopper un élément du dom. -->
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+import type { Category } from "@/types";
+import { fetchGet } from "@/modules/fetch";
+
+const url: string = "/api/categories";
+const categories = ref<Category[] | undefined>();
+categories.value = await fetchGet<Category[]>(url);
+</script>
 
 <style>
 @import url(TaskFormModal.css);

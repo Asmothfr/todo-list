@@ -1,31 +1,28 @@
 <template>
-  <ul>
+  <ul v-if="categoriesList != undefined">
     <TaskDisplay
-      v-for="categorie in categoriesList"
-      v-bind:key="categorie.id"
-      :id="categorie.id"
-      :name="categorie.name"
-      :items="categorie.items"
+      v-for="category in categoriesList"
+      v-bind:key="category.id"
+      :id="category.id"
+      :name="category.name"
+      :tasks="category.tasks"
     />
   </ul>
+  <h2 v-else>Aucune liste de taches trouvées</h2>
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
+import type { CategoryTasks } from "@/types";
+import { fetchGet } from "@/modules/fetch";
 import TaskDisplay from "@/components/TaskDisplay/TaskDisplay.vue";
-import categoriesFile from "@/task.json";
 
-export interface Categories {
-  name: string;
-  id: number;
-  items: Task[];
+const categoriesList = ref<CategoryTasks[] | undefined>();
+
+async function fetchCategory(): Promise<CategoryTasks[] | undefined> {
+  return await fetchGet<CategoryTasks[]>("/api/categories/tasks");
 }
-
-export interface Task {
-  name: string;
-  priority: string;
-  id: number;
-  complete: boolean;
-}
-
-const categoriesList: Categories[] = categoriesFile;
+onMounted(async () => {
+  categoriesList.value = await fetchCategory();
+});
 </script>

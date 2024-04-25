@@ -4,7 +4,9 @@
       <h1 class="App__title">TODO LIST</h1>
     </header>
     <main>
-      <TaskContainer />
+      <Suspense>
+        <TaskContainer />
+      </Suspense>
       <AddButton />
     </main>
   </div>
@@ -13,6 +15,8 @@
 <script setup lang="ts">
 import AddButton from "@/components/AddButton/AddButton.vue";
 import TaskContainer from "@/components/TaskContainer/TaskContainer.vue";
+
+// Mettre fetchGet
 </script>
 
 <style>
