@@ -1,19 +1,25 @@
 <template>
   <div class="TaskFormModal">
-    <form class="TaskFormModal__form" method="post">
+    <form class="TaskFormModal__form" @submit.prevent="validate">
       <div class="TaskFormModal__input-container">
         <input
           type="text"
           name="name"
+          v-model="taskName"
           placeholder="Task Name"
           class="input-style TaskFormModal__input"
         />
-        <select class="input-style TaskFormModal__select" name="category">
-          <option value="null">Category</option>
+        <!-- :value="props.task?.name" -->
+        <select
+          name="category"
+          class="input-style TaskFormModal__select"
+          v-model="taskCategory"
+        >
+          <option disabled value="null">Category</option>
           <option
-            v-for="category in categories"
+            v-for="category in categoriesData"
             v-bind:key="category.id"
-            :value="category.name"
+            :value="category.id"
           >
             {{ category.name }}
           </option>
@@ -27,6 +33,7 @@
               type="radio"
               id="priority-normal"
               name="priority"
+              v-model="taskPriority"
               value="normal"
               class="TaskFormModal__priority-input TaskFormModal__priority-input-normal"
             />
@@ -42,6 +49,7 @@
               type="radio"
               id="priority-important"
               name="priority"
+              v-model="taskPriority"
               value="important"
               class="TaskFormModal__priority-input TaskFormModal__priority-input-important"
             />
@@ -56,6 +64,7 @@
               type="radio"
               id="priority-urgent"
               name="priority"
+              v-model="taskPriority"
               value="urgent"
               class="TaskFormModal__priority-input TaskFormModal__priority-input-urgent"
             />
@@ -71,17 +80,61 @@
         Validate
       </button>
     </form>
+    <button @click="emit('closeModal')">Close</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import type { Category } from "@/types";
-import { fetchGet } from "@/modules/fetch";
+import { ref, type PropType } from "vue";
+import { useCategories } from "@/composables/useCategories";
+import type { Task, TaskToPost, TaskToUpdate } from "@/types";
+import { useTask } from "@/composables/useTaskApi";
 
-const url: string = "/api/categories";
-const categories = ref<Category[] | undefined>();
-categories.value = await fetchGet<Category[]>(url);
+const props = defineProps({
+  isPost: {
+    type: Boolean,
+    required: true,
+  },
+  task: Object as PropType<Task>,
+  categoryId: String,
+});
+
+const emit = defineEmits<{
+  closeModal: [void];
+  postRessource: [string, Task];
+  updateRessource: [url: string, id?: string, data?: Task];
+}>();
+
+const { categories } = useCategories();
+const { taskPostMutation, taskPutMutation } = useTask();
+const categoriesData = categories.data;
+
+const taskName = ref<string | undefined>(props.task?.name);
+const taskCategory = ref<string | undefined>(props.categoryId);
+const taskPriority = ref<string | undefined>(props.task?.priority);
+
+async function validate(): Promise<void> {
+  if (props.isPost) {
+    const taskDataToPost: Partial<TaskToPost> = {
+      name: taskName.value,
+      category: taskCategory.value,
+      priority: taskPriority.value,
+      complete: false,
+    };
+    taskPostMutation.mutate(taskDataToPost);
+  } else {
+    const taskToUpdate: Partial<TaskToUpdate> = {
+      id: props.task?.id,
+      name: taskName.value,
+      category: taskCategory.value,
+      priority: taskPriority.value,
+      complete: props.task?.complete,
+    };
+    taskPutMutation.mutate(taskToUpdate);
+  }
+
+  emit("closeModal");
+}
 </script>
 
 <style>

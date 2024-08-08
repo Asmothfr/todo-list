@@ -1,0 +1,38 @@
+.TasksDisplay__task-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    list-style-type: none;
+}
+
+.TasksDisplay__cirle-icon {
+    margin-right: 0.5rem;
+    color: var(--button-color);
+}
+
+.TasksDisplay__cirle-icon--checked {
+    margin-right: 0.5rem;
+    color: var(--task-color-validated);
+}
+
+.TasksDisplay__delete-icon--checked {
+    margin-left: 0.5rem;
+    color: var(--task-color-validated);
+}
+
+.TasksDisplay--normal-task {
+    color: var(--task-color-normal);
+}
+
+.TasksDisplay--important-task {
+    color: var(--task-color-important);
+}
+
+.TasksDisplay--urgent-task {
+    color: var(--task-color-urgent);
+}
+
+.TasksDisplay--checked-task {
+    color: var(--task-color-validated)
+}

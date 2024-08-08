@@ -12,30 +12,40 @@
       />
       <button class="validate-button">Validate</button>
     </form>
+    <button @click="emit('closeModal')">Close</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { fetchPost } from "@/modules/fetch";
+import { ref, type PropType } from "vue";
+import type { Category } from "@/types";
+import { useCategories } from "@/composables/useCategories";
 
-type Category = {
-  name: string | undefined;
-};
+const props = defineProps({
+  isPost: {
+    type: Boolean,
+    required: true,
+  },
+  category: Object as PropType<Category>,
+});
 
 const emit = defineEmits<{
-  closeModal: [];
+  closeModal: [void];
 }>();
 
-const url: string = "/api/categories";
-const categoryName = ref<string>();
+const { categoryPostMutation, categoryPutMutation } = useCategories();
 
-async function validate(): Promise<void> {
-  const data = categoryName.value;
-  const categoryData: Category = {
-    name: data,
-  };
-  await fetchPost<Category>(url, categoryData);
+const categoryName = ref<string | undefined>(props.category?.name);
+
+function validate(): void {
+  if (props.isPost) {
+    categoryPostMutation.mutate({ name: categoryName.value });
+  } else {
+    categoryPutMutation.mutate({
+      name: categoryName.value,
+      id: props.category?.id,
+    });
+  }
   emit("closeModal");
 }
 </script>

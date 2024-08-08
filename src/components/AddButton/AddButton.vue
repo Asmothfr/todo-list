@@ -18,10 +18,16 @@
       </button>
     </div>
     <div class="AddButton__modal">
-      <CategoryFormModal v-if="categoryOpen" @closeModal="closeModal()" />
-      <Suspense>
-        <TaskFormModal v-if="taskOpen" />
-      </Suspense>
+      <CategoryFormModal
+        v-if="categoryOpen"
+        :is-post="true"
+        @closeModal="closeModal()"
+      />
+      <TaskFormModal
+        v-if="taskOpen"
+        :is-post="true"
+        @closeModal="closeModal()"
+      />
     </div>
   </div>
 </template>
